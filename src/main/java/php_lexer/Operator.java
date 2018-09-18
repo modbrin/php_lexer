@@ -9,5 +9,7 @@ public class Operator extends Token {
         return value.matches(OPERATOR_REGEXP);
     }
 
-    private static String OPERATOR_REGEXP = "(\\+)|(-)|(\\*)|(\\/)|(=)|(=&)|(&)|(\\|)|(\\^)|(~)|(<<)|(>>)|(==)|(===)|(!=)|(<>)|(!==)|(<)|(<=)|(>=)|(\\++)|(--)|(and)|(&&)|(or)|(\\|\\|)|(xor)|(!)|(->)";
+    private static String OPERATOR_REGEXP = "(\\+)|(-)|(\\*)|(\\/)|(=)|(=&)|(&)" +
+            "|(\\|)|(\\^)|(~)|(<<)|(>>)|(==)|(===)|(!=)|(<>)|(!==)|(<)|(<=)|(>=)" +
+            "|(\\++)|(--)|(and)|(&&)|(or)|(\\|\\|)|(xor)|(!)|(->)|(<<<)";
 }
