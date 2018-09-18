@@ -1,7 +1,15 @@
 package php_lexer;
 
+import java.io.File;
+import java.io.IOException;
+
 public class HelloWorld {
-  public static void main(String[] args) {
-    System.out.println("HELLO WORLD");
+  public static void main(String[] args) throws IOException {
+
+    Lexer lex = new Lexer(new File("src/main/input/input.php"));
+
+    while (!lex.hasNextToken()) {
+      lex.nextToken();
+    }
   }
 }
