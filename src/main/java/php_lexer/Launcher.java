@@ -8,8 +8,8 @@ public class Launcher {
 
     Lexer lex = new Lexer(new File("src/main/input/input.php"));
 
-    while (!lex.hasNextToken()) {
-      lex.nextToken();
+    while (lex.hasNextToken()) {
+      System.out.print(lex.nextToken().toString().trim() + " -> ");
     }
   }
 }

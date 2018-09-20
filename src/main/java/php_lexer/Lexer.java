@@ -50,6 +50,7 @@ public class Lexer {
                     buffer += Character.toString(current());
                     move();
                 }
+                return new Literal(buffer);
             } else if (Identifier.match(buffer)) {
                 while(Identifier.match(buffer+current())) {
                     buffer += Character.toString(current());

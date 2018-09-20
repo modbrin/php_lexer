@@ -7,10 +7,10 @@ public class Identifier extends Token {
 
     public static boolean match(String value) {
 
-        return value.toLowerCase().matches(IDENTIFIER_REGEXP);
+        return value.toLowerCase().matches(ID_REG);
     }
 
-    private static String LETTER = "[a-zA-z]";
+    private static String LETTER = "[a-zA-Z]";
     private static String DIGIT = "[0-9]";
     private static String EXT_ASCII = "[\\xA8-\\xFE]";
 
@@ -25,4 +25,6 @@ public class Identifier extends Token {
     private static String IDENTIFIER_REGEXP = "(IDENTIFIER_NAME|VARIABLE_DECLARATION)"
             .replace("IDENTIFIER_NAME",IDENTIFIER_NAME)
             .replace("VARIABLE_DECLARATION", VARIABLE_DECLARATION);
+
+    private static String ID_REG = "(([a-zA-Z]|_)([a-zA-Z]|[0-9]|_|[\\xA8-\\xFE])*|\\$(\\$)?([a-zA-Z]|_)([a-zA-Z]|[0-9]|_|[\\xA8-\\xFE])*)";
 }

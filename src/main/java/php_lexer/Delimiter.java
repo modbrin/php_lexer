@@ -9,5 +9,5 @@ public class Delimiter extends Token {
         return value.matches(DELIMITER_REGEX);
     }
 
-    private static String DELIMITER_REGEX = "(\\(|\\)|\\{|\\}|\\[|\\]|;|<\\?php|\\?>|\\s)";
+    private static String DELIMITER_REGEX = "(\\(|\\)|\\{|\\}|\\[|\\]|;|<\\?php|\\?>|\\s|,|\\.)";
 }
