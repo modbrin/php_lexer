@@ -32,26 +32,41 @@ public class Lexer {
         buffer = "";
         while(true) {
             buffer += Character.toString(current());
-            if (Identifier.match(buffer)) {
-                do{
-                    move();
-                    buffer += Character.toString(current());
-                } while(Identifier.match(buffer));
-                return new Identifier(buffer);
-            } else if (Operator.match(buffer)) {
-
-            } else if (Literal.match(buffer)) {
-
-            } else if (Delimiter.match(buffer)) {
-
-            }
             move();
+            if (Delimiter.match(buffer)) {
+                while(Delimiter.match(buffer+current())) {
+                    buffer += Character.toString(current());
+                    move();
+                }
+                return new Delimiter(buffer);
+            } else if (Operator.match(buffer)) {
+                while(Operator.match(buffer+current())) {
+                    buffer += Character.toString(current());
+                    move();
+                }
+                return new Operator(buffer);
+            } else if (Literal.match(buffer)) {
+                while(Literal.match(buffer+current())) {
+                    buffer += Character.toString(current());
+                    move();
+                }
+            } else if (Identifier.match(buffer)) {
+                while(Identifier.match(buffer+current())) {
+                    buffer += Character.toString(current());
+                    move();
+                }
+                return new Identifier(buffer);
+            }
+
         }
+    }
+
+    public void skipToPHP() {
 
     }
 
     public boolean hasNextToken() {
-        return false;
+        return !isEnd;
     }
 
 

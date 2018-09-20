@@ -1,4 +1,4 @@
-abc <?php
+
 
 function console_log( $data ){
   echo '<script>';
@@ -30,4 +30,3 @@ foreach ($tokens as $token) {
 
 
 console_log($out);
-?>

@@ -6,16 +6,16 @@ public class Literal extends Token {
     }
 
     public static boolean match(String value) {
-        return value.matches(STRING_LITERAL) || value.matches(NUMERIC_LITERAL);
+        return value.matches(STRING_LITERAL) || value.matches(NUMERIC_LITERAL) || value.matches(BOOL_LITERAL);
     }
 
-    private static String STRING_LITERAL = "\\\"(\\\\.|[^\"\\\\])*\\\"";
+    private static String STRING_LITERAL = "(\\\"(\\\\.|[^\"\\\\])*\\\")|(\\'(\\\\.|[^'\\\\])*\\')";
 
 
     private static String LNUM = "[0-9]+";
     private static String DNUM = "(([0-9]*[\\.]LNUM)|(LNUM[\\.][0-9]*))"
             .replaceAll("LNUM", LNUM);
-    private static String EXPONENT_DNUM = "[+-]?((LNUM | DNUM) [eE][+-]? LNUM)"
+    private static String EXPONENT_DNUM = "[+-]?((LNUM|DNUM) [eE][+-]? LNUM)"
             .replaceAll("LNUM", LNUM)
             .replaceAll("DNUM", DNUM);
     private static String FLOATING = "(LNUM|DNUM|EXPONENT_DNUM)"
@@ -36,4 +36,8 @@ public class Literal extends Token {
     private static String NUMERIC_LITERAL = "(INTEGER|FLOATING)"
             .replace("INTEGER",INTEGER)
             .replace("FLOATING",FLOATING);
+
+    private static String BOOL_LITERAL = "(true|false|null)";
+
+    //TODO: heredocs and eot
 }

@@ -6,6 +6,8 @@ public class Delimiter extends Token {
     }
 
     public static boolean match(String value) {
-        return false;
+        return value.matches(DELIMITER_REGEX);
     }
+
+    private static String DELIMITER_REGEX = "(\\(|\\)|\\{|\\}|\\[|\\]|;|<\\?php|\\?>|\\s)";
 }
