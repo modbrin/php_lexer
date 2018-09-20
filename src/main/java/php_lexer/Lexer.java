@@ -29,6 +29,7 @@ public class Lexer {
     }
 
     public Token nextToken() throws IOException {
+        buffer = "";
         while(true) {
             buffer += Character.toString(current());
             if (Identifier.match(buffer)) {
@@ -36,6 +37,7 @@ public class Lexer {
                     move();
                     buffer += Character.toString(current());
                 } while(Identifier.match(buffer));
+                return new Identifier(buffer);
             } else if (Operator.match(buffer)) {
 
             } else if (Literal.match(buffer)) {
@@ -43,6 +45,7 @@ public class Lexer {
             } else if (Delimiter.match(buffer)) {
 
             }
+            move();
         }
 
     }

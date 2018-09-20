@@ -8,4 +8,6 @@ public class Identifier extends Token {
     public static boolean match(String value) {
         return false;
     }
+
+    private static String IDENTIFIER_REGEXP = "";
 }

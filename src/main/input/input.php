@@ -1,4 +1,4 @@
-<?php
+abc <?php
 
 function console_log( $data ){
   echo '<script>';
