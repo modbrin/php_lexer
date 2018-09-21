@@ -9,7 +9,9 @@ public class Launcher {
     Lexer lex = new Lexer(new File("src/main/input/input.php"));
 
     while (lex.hasNextToken()) {
-      System.out.print(lex.nextToken().toString().trim() + " -> ");
+      Token current = lex.nextToken();
+      System.out.format("%s: %s\n",current.typeString(),current.toString());
+
     }
   }
 }

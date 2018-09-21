@@ -1,7 +1,4 @@
-
-code;
-$token[0]
-$token[0].$token[0]
+<?php
 
 function console_log( $data ){
   echo '<script>';
@@ -10,13 +7,14 @@ function console_log( $data ){
 }
 
 $source = <<<'code'
+<?php
 
 class A
 {
     const PUBLIC = 1;
     $stack = console_log("kek")
 }
-
+?>
 code;
 
 $tokens = token_get_all($source);
@@ -32,3 +30,4 @@ foreach ($tokens as $token) {
 
 
 console_log($out);
+?>

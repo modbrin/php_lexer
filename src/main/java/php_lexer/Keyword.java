@@ -5,6 +5,11 @@ public class Keyword extends Token {
         super(value);
     }
 
+    @Override
+    public String typeString() {
+        return "KEYWORD";
+    }
+
     public static boolean match(String value) {
         return value.toLowerCase().matches(KEYWORD_REGEXP);
     }

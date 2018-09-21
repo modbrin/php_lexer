@@ -5,6 +5,11 @@ public class Identifier extends Token {
         super(value);
     }
 
+    @Override
+    public String typeString() {
+        return "IDENTIFIER";
+    }
+
     public static boolean match(String value) {
 
         return value.toLowerCase().matches(ID_REG);

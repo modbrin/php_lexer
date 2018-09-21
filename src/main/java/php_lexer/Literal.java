@@ -5,6 +5,11 @@ public class Literal extends Token {
         super(value);
     }
 
+    @Override
+    public String typeString() {
+        return "LITERAL";
+    }
+
     public static boolean match(String value) {
         return value.matches(STRING_LITERAL) || value.matches(NUMERIC_LITERAL) || value.matches(BOOL_LITERAL);
     }

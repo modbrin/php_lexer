@@ -5,6 +5,11 @@ public class Operator extends Token {
         super(value);
     }
 
+    @Override
+    public String typeString() {
+        return "OPERATOR";
+    }
+
     public static boolean match(String value) {
         return value.matches(OPERATOR_REGEXP);
     }

@@ -8,6 +8,7 @@ public abstract class Token {
         this.value = value;
     }
 
+    public abstract String typeString();
     @Override
     public String toString() {
         return value;

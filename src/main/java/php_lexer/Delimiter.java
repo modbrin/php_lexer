@@ -5,9 +5,14 @@ public class Delimiter extends Token {
         super(value);
     }
 
-    public static boolean match(String value) {
-        return value.matches(DELIMITER_REGEX);
+    @Override
+    public String typeString() {
+        return "DELIMITER";
     }
 
-    private static String DELIMITER_REGEX = "(\\(|\\)|\\{|\\}|\\[|\\]|;|<\\?php|\\?>|\\s|,|\\.)";
+    public static boolean match(String value) {
+        return value.matches(DELIM_REGULAR);
+    }
+
+    private static String DELIM_REGULAR = "(\\(|\\)|\\{|\\}|\\[|\\]|;|<\\?php|\\?>|\\s*|,)";
 }
