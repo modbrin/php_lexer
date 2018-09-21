@@ -9,7 +9,7 @@ public class Lexer {
     private boolean isEnd;
 
     private char[] lookahead;
-    private final int lookaheadLength = 4;
+    final static int lookaheadLength = 4;
 
     public Lexer(File file) throws IOException {
         this.reader = new BufferedReader(new FileReader(file));
@@ -28,12 +28,13 @@ public class Lexer {
 
     /**
      * Get N first chars from lookahead array
+     *
      * @return
      */
     public String lookaheadString(int N) {
         StringBuilder result = new StringBuilder();
-        int bound = (N<lookaheadLength)?N:lookaheadLength-1;
-        for(int i = 0;i<=bound;++i){
+        int bound = (N < lookaheadLength) ? N : lookaheadLength;
+        for (int i = 0; i < bound; ++i) {
             result.append(Character.toString(lookahead[i]));
         }
         return result.toString();
@@ -41,12 +42,13 @@ public class Lexer {
 
     /**
      * Append one symbol to back of lookahead, shift all lookahead by one, first symbol value is dumped.
+     *
      * @param newChar symbol to append
      */
     private void pushBack(char newChar) {
         int lastIndex = lookaheadLength - 1;
         for (int i = 1; i <= lastIndex; ++i) {
-            lookahead[i-1] = lookahead[i];
+            lookahead[i - 1] = lookahead[i];
         }
         lookahead[lastIndex] = newChar;
     }
@@ -57,7 +59,7 @@ public class Lexer {
     }
 
     private void shiftLookahead(int shiftAmount) throws IOException {
-        for(int i = 0;i<shiftAmount;++i) {
+        for (int i = 0; i < shiftAmount; ++i) {
             moveLookahead();
         }
     }
@@ -67,7 +69,7 @@ public class Lexer {
     }
 
     private void move() throws IOException {
-        if(isEnd) {
+        if (isEnd) {
             c = Character.MIN_VALUE;
             return;
         }
@@ -93,13 +95,9 @@ public class Lexer {
                 }
                 toReturn = new Delimiter(buffer);
             } else if (Operator.match(buffer)) {
-                String res = buffer.concat(lookaheadString(4));
-                if(buffer.concat(lookaheadString(4)).toLowerCase().matches("<\\?php")) {
-                    toReturn = new Delimiter(buffer.concat(lookaheadString(4)));
-                    shiftLookahead(4);
-                } else if(buffer.concat(lookaheadString(2)).toLowerCase().matches("<\\?=")) {
-                    toReturn = new Delimiter(buffer.concat(lookaheadString(2)));
-                    shiftLookahead(2);
+                String res = buffer.concat(lookaheadString(1));
+                if (buffer.concat(lookaheadString(1)).toLowerCase().matches("<\\?|\\?>|\\/\\/|\\*\\/|\\/\\*")) {
+                    continue;
                 } else {
                     while (Operator.match(buffer + head())) {
                         buffer += Character.toString(head());
@@ -118,13 +116,44 @@ public class Lexer {
                     buffer += Character.toString(head());
                     moveLookahead();
                 }
-                toReturn = (Keyword.match(buffer))?new Keyword(buffer):new Identifier(buffer);
+                toReturn = (Keyword.match(buffer)) ? new Keyword(buffer) : new Identifier(buffer);
+            } else if (Comment.match(buffer)) {
+                while (Comment.match(buffer + head())) {
+                    buffer += Character.toString(head());
+                    moveLookahead();
+                }
+                toReturn = new Comment(buffer);
             }
-            if(toReturn != null) {
-               return toReturn;
+            if (toReturn != null) {
+                return toReturn;
             }
         }
     }
+
+//    public Token parseDelimiter(String buffer) throws IOException {
+//        while (Delimiter.match(buffer + head())) {
+//            buffer += Character.toString(head());
+//            moveLookahead();
+//        }
+//        toReturn = new Delimiter(buffer);
+//    }
+//
+//    public static Token parseOperator() {
+//
+//    }
+//
+//    public static Token parseLiteral() {
+//
+//    }
+//
+//    public static Token parseIdentifier() {
+//
+//    }
+//
+//    public static Token parseComment() {
+//
+//    }
+
 
     public boolean hasNextToken() {
         return !isEnd;

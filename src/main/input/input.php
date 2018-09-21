@@ -1,33 +1,54 @@
-<?php
-
-function console_log( $data ){
-  echo '<script>';
-  echo 'console.log('. json_encode( $data ) .')';
-  echo '</script>';
-}
-
-$source = <<<'code'
-<?php
-
-class A
+/**
+ * Accept any expression
+ *
+ * @param   string  $query
+ * @return  ExpressionInterface
+ */
+protected static function acceptExpression(array &$tokens)
 {
-    const PUBLIC = 1;
-    $stack = console_log("kek")
-}
-?>
-code;
-
-$tokens = token_get_all($source);
-
-$out = array();
-
-foreach ($tokens as $token) {
-    if (is_array($token)) {
-        $token_name = token_name($token[0]);
-        array_push($out, "Line {$token[2]}: {$token_name}('{$token[1]}')");
+    if (empty($tokens)) {
+        return null;
     }
+    $token = array_shift($tokens);
+    $expression = null;
+    switch ($token->type) {
+        case Token::T_LEXEME:
+            $expression = new Lexeme($token->data);
+            if (!empty($tokens)) {
+                $nextToken = array_shift($tokens);
+                if (Token::T_LEXEME_PREFIX === $nextToken->type) {
+                    $expression->setIsPrefix();
+                } else {
+                    array_unshift($tokens, $nextToken);
+                }
+            }
+            break;
+        case Token::T_PHRASE:
+            $expression = new Phrase(trim(preg_replace('/\\s+/', ' ', $token->data)));
+            break;
+        case Token::T_OPERATOR_NOT:
+            $innerExpression = static::acceptExpression($tokens);
+            if ($innerExpression) {
+                $expression = new NotExpression($innerExpression);
+            }
+            break;
+        case Token::T_SET_OPEN:
+            if (empty($tokens)) {
+                break;
+            }
+            $expression = static::acceptExpressionSet($tokens);
+            $expressions = $expression->getExpressions();
+            if (count($expressions) === 1) {
+                $expression = reset($expressions);
+            }
+            break;
+        case Token::T_OPERATOR_OR:
+        case Token::T_OPERATOR_AND:
+        case Token::T_LEXEME_PREFIX:
+        case Token::T_SET_CLOSE:
+        default:
+            // skip
+            break;
+    }
+    return $expression;
 }
-
-
-console_log($out);
-?>
