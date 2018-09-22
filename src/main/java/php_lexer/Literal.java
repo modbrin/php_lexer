@@ -43,6 +43,4 @@ public class Literal extends Token {
             .replace("FLOATING",FLOATING);
 
     private static String BOOL_LITERAL = "(true|false|null)";
-
-    //TODO: heredocs and eot
 }

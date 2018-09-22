@@ -15,5 +15,5 @@ public class Delimiter extends Token {
     }
 
     private static String DELIM_REGULAR = "(\\(|\\)|\\{|\\}|\\[|\\]|;"+
-            "|<\\?php|\\?>|<\\?|<%|<\\?=|<%=|\\s*|,|\\\\)";
+            "|<\\?php|\\?>|<\\?=|\\s*|,|\\\\)";
 }

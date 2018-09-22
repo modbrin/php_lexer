@@ -7,6 +7,7 @@ public class Lexer {
     private char c;
     private String buffer;
     private boolean isEnd;
+    private boolean isLookaheadEnd;
 
     private char[] lookahead;
     private static final int lookaheadLength = 4;
@@ -15,6 +16,7 @@ public class Lexer {
         this.reader = new BufferedReader(new FileReader(file));
         buffer = "";
         isEnd = false;
+        isLookaheadEnd = false;
         lookahead = new char[lookaheadLength];
         shiftLookahead(lookaheadLength);
     }
@@ -31,7 +33,7 @@ public class Lexer {
      *
      * @return
      */
-    public String lookaheadString(int N) {
+    private String lookaheadString(int N) {
         StringBuilder result = new StringBuilder();
         int bound = (N < lookaheadLength) ? N : lookaheadLength;
         for (int i = 0; i < bound; ++i) {
@@ -59,6 +61,9 @@ public class Lexer {
     private void moveLookahead() throws IOException {
         move();
         pushBack(current());
+        if(lookahead[0]==(char)-1){
+            isLookaheadEnd = true;
+        }
     }
 
     /**
@@ -84,13 +89,13 @@ public class Lexer {
      */
     private void move() throws IOException {
         if (isEnd) {
-            c = Character.MIN_VALUE;
+            c = (char) -1;
             return;
         }
         int current = reader.read();
         if (current == -1) {
             isEnd = true;
-            c = Character.MIN_VALUE;
+            c = (char) -1;
         } else {
             c = (char) current;
         }
@@ -105,6 +110,9 @@ public class Lexer {
         Token toReturn = null;
         buffer = "";
         while (true) {
+            if (isLookaheadEnd) {
+                return new Error(buffer);
+            }
             buffer += Character.toString(head());
             moveLookahead();
             if (Delimiter.match(buffer)) {
@@ -115,7 +123,13 @@ public class Lexer {
                 toReturn = new Delimiter(buffer);
             } else if (Operator.match(buffer)) {
                 String res = buffer.concat(lookaheadString(1));
-                if (buffer.concat(lookaheadString(1)).toLowerCase().matches("<\\?|\\?>|\\/\\/|\\*\\/|\\/\\*")) {
+                if (buffer.concat(lookaheadString(1)).toLowerCase()
+                        .matches("<\\?|\\?>|\\/\\/|\\*\\/|\\/\\*")) {
+                    continue;
+                } else if (buffer.concat(lookaheadString(2)).toLowerCase()
+                        .matches("<<<")) {
+                    buffer += Character.toString(head());
+                    moveLookahead();
                     continue;
                 } else {
                     while (Operator.match(buffer + head())) {
@@ -156,7 +170,7 @@ public class Lexer {
      * @return true if there is next token
      */
     public boolean hasNextToken() {
-        return !isEnd;
+        return !isLookaheadEnd;
     }
 
 

@@ -1,4 +1,6 @@
 <?php
+/
+//
 define("DONT_RUN_SAMPLES", "true");
 define("SAMPLE_CODE_NAME_HEADING", "SampleCodeName");
 require 'vendor/autoload.php';
@@ -6,7 +8,7 @@ require_once 'constants/SampleCodeConstants.php';
 if ($_SERVER['argc'] != 3) {
     die('\n Usage: phpunit test-runner.php <SampleCodeDirectoryPath>');
 }
-$dirPath = $_SERVER['argv'][2];
+$phpErr = $_SERVER['argv'][2];
 echo $dirPath;
 if (substr($dirPath, -1) != "/") {
     $dirPath = $dirPath."/";
