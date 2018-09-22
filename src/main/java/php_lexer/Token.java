@@ -11,6 +11,6 @@ public abstract class Token {
     public abstract String typeString();
     @Override
     public String toString() {
-        return value;
+        return value.replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n");
     }
 }

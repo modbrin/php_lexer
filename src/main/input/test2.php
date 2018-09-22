@@ -1,30 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title><?php pageTitle(); ?> | <?php siteName(); ?></title>
-    <style type="text/css">
-        .wrap { max-width: 720px; margin: 50px auto; padding: 30px 40px; text-align: center; box-shadow: 0 4px 25px -4px #9da5ab; }
-        article { text-align: left; padding: 40px; line-height: 150%; }
-    </style>
-</head>
-<body>
-<div class="wrap">
-
-    <header>
-        <h2><?php siteName(); ?></h2>
-        <nav class="menu">
-            <?php navMenu(); ?>
-        </nav>
-    </header>
-
-    <article>
-        <h3><?php pageTitle(); ?></h3>
-        <?php pageContent(); ?>
-    </article>
-
-    <footer><small>&copy;<?php echo date('Y'); ?> <?php siteName(); ?>.<br><?php siteVersion(); ?></small></footer>
-
-</div>
-</body>
-</html>
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+// Configure HTTP basic authorization: basicAuth
+    $config = new \Swagger\Client\Configuration();
+    $config->setUsername('AUTH_ID');
+    $config->setPassword('AUTH_TOKEN');
+$apiInstance = new Swagger\Client\Api\MessageApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$api_version = "1.0"; // string | API Version. If not specified your pinned verison is used.
+$message = new \Swagger\Client\Model\CreateMessage(); // \Swagger\Client\Model\CreateAccount | Subaccount object
+date_default_timezone_set('UTC');
+$message->setDestination(["+1XXX8323XXX", "+1XXX3234XXX"]);
+$message->setSource("+1XXX2321XXX");
+$message->setText("Hello Friend");
+try {
+    $result = $apiInstance->sendMessage($api_version, $message);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling MessageApi->createMessage: ', $e->getMessage(), PHP_EOL;
+}
+?>
