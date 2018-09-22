@@ -33,8 +33,8 @@ public class Lexer {
      */
     public String lookaheadString(int N) {
         StringBuilder result = new StringBuilder();
-        int bound = (N < lookaheadLength) ? N : lookaheadLength - 1;
-        for (int i = 0; i <= bound; ++i) {
+        int bound = (N < lookaheadLength) ? N : lookaheadLength;
+        for (int i = 0; i < bound; ++i) {
             result.append(lookahead[i]);
         }
         return result.toString();
@@ -95,13 +95,9 @@ public class Lexer {
                 }
                 toReturn = new Delimiter(buffer);
             } else if (Operator.match(buffer)) {
-                String res = buffer.concat(lookaheadString(4));
-                if (buffer.concat(lookaheadString(4)).toLowerCase().matches("<\\?php")) {
-                    toReturn = new Delimiter(buffer.concat(lookaheadString(4)));
-                    shiftLookahead(4);
-                } else if (buffer.concat(lookaheadString(2)).toLowerCase().matches("<\\?=")) {
-                    toReturn = new Delimiter(buffer.concat(lookaheadString(2)));
-                    shiftLookahead(2);
+                String res = buffer.concat(lookaheadString(1));
+                if (buffer.concat(lookaheadString(1)).toLowerCase().matches("<\\?|\\?>|\\/\\/|\\*\\/|\\/\\*")) {
+                    continue;
                 } else {
                     while (Operator.match(buffer + head())) {
                         buffer += Character.toString(head());
@@ -121,12 +117,43 @@ public class Lexer {
                     moveLookahead();
                 }
                 toReturn = (Keyword.match(buffer)) ? new Keyword(buffer) : new Identifier(buffer);
+            } else if (Comment.match(buffer)) {
+                while (Comment.match(buffer + head())) {
+                    buffer += Character.toString(head());
+                    moveLookahead();
+                }
+                toReturn = new Comment(buffer);
             }
             if (toReturn != null) {
                 return toReturn;
             }
         }
     }
+
+//    public Token parseDelimiter(String buffer) throws IOException {
+//        while (Delimiter.match(buffer + head())) {
+//            buffer += Character.toString(head());
+//            moveLookahead();
+//        }
+//        toReturn = new Delimiter(buffer);
+//    }
+//
+//    public static Token parseOperator() {
+//
+//    }
+//
+//    public static Token parseLiteral() {
+//
+//    }
+//
+//    public static Token parseIdentifier() {
+//
+//    }
+//
+//    public static Token parseComment() {
+//
+//    }
+
 
     public boolean hasNextToken() {
         return !isEnd;

@@ -14,5 +14,6 @@ public class Delimiter extends Token {
         return value.matches(DELIM_REGULAR);
     }
 
-    private static String DELIM_REGULAR = "(\\(|\\)|\\{|\\}|\\[|\\]|;|<\\?php|\\?>|\\s*|,)";
+    private static String DELIM_REGULAR = "(\\(|\\)|\\{|\\}|\\[|\\]|;|<\\?php|\\?>|\\s*|,|\\\\)";
+    // TODO: complete <? tags
 }
