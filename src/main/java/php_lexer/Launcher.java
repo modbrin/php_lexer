@@ -1,16 +1,19 @@
 package php_lexer;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Launcher {
   public static void main(String[] args) throws IOException {
 
-    Lexer lex = new Lexer(new File("src/main/input/test3.php"));
+    Lexer lex = new Lexer(new File("src/main/input/test5.php"));
+    FileWriter writer = new FileWriter(new File("out.txt"));
 
     while (lex.hasNextToken()) {
       Token current = lex.nextToken();
-      System.out.format("<%s: \'%s\'>\n",current.typeString(),current.toString());
+      writer.write(String.format("<%s: \'%s\'>\n",current.typeString(),current.toString()));
     }
+    writer.close();
   }
 }
