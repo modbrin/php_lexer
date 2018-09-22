@@ -53,21 +53,35 @@ public class Lexer {
         lookahead[lastIndex] = newChar;
     }
 
+    /**
+     * Moves lookahead buffer by one character
+     */
     private void moveLookahead() throws IOException {
         move();
         pushBack(current());
     }
 
+    /**
+     * Shifts lookahead buffer by n amount characters
+     *
+     * @param shiftAmount amount of characters to shift
+     */
     private void shiftLookahead(int shiftAmount) throws IOException {
         for (int i = 0; i < shiftAmount; ++i) {
             moveLookahead();
         }
     }
 
+    /**
+     * Returns current character
+     */
     private char current() {
         return c;
     }
 
+    /**
+     * Moves current character
+     */
     private void move() throws IOException {
         if (isEnd) {
             c = Character.MIN_VALUE;
@@ -82,6 +96,11 @@ public class Lexer {
         }
     }
 
+    /**
+     * Returns lexical token in the stream
+     *
+     * @return token
+     */
     public Token nextToken() throws IOException {
         Token toReturn = null;
         buffer = "";
@@ -130,31 +149,12 @@ public class Lexer {
         }
     }
 
-//    public Token parseDelimiter(String buffer) throws IOException {
-//        while (Delimiter.match(buffer + head())) {
-//            buffer += Character.toString(head());
-//            moveLookahead();
-//        }
-//        toReturn = new Delimiter(buffer);
-//    }
-//
-//    public static Token parseOperator() {
-//
-//    }
-//
-//    public static Token parseLiteral() {
-//
-//    }
-//
-//    public static Token parseIdentifier() {
-//
-//    }
-//
-//    public static Token parseComment() {
-//
-//    }
 
-
+    /**
+     * Checks if there is a nextToken in the stream
+     *
+     * @return true if there is next token
+     */
     public boolean hasNextToken() {
         return !isEnd;
     }

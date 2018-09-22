@@ -29,6 +29,5 @@ public class Keyword extends Token {
             "(t(hrow|r(ait|y)))|" +
             "(u(nset|se))|" +
             "(__halt_compiler|break|list|(x)?or|var|while)|" +
-            "(yield)" +
-            ")";
+            "(yield)" + ")";
 }
