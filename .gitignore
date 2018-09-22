@@ -5,5 +5,5 @@ gradle/
 *.iml
 gradlew
 gradlew.bat
-
-
+out/
+out.txt
