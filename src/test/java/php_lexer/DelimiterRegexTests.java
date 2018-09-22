@@ -23,7 +23,6 @@ public class DelimiterRegexTests {
     public void openTagShouldBeDetected() {
         assertTrue(Delimiter.match("<?php"), "<?php");
         assertTrue(Delimiter.match("<?="), "<?=");
-        assertTrue(Delimiter.match("<?"), "<?");
     }
 
     @Test
