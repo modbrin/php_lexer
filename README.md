@@ -3,7 +3,10 @@ Compilers Construction Course Project
 ## Authors
 - Maxim Surkov (m.surkov@innopolis.ru)
 - Ivan Lyagaev (i.lyagaev@innopolis.ru)
-
+## Dependencies
+- `Java` 1.8
+-  Internet connection
+- Unix system
 ## How to run
 Run the script `sh script_for_run` \
 __OR__ \

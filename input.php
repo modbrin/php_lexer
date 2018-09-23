@@ -1,3 +1,4 @@
+<?php
 /**
  * Accept any expression
  *
