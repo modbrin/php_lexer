@@ -38,7 +38,7 @@ public class OperatorRegexTests {
         assertTrue(Operator.match("^"), "\"^\"");
         assertTrue(Operator.match("~"), "\"~\"");
         assertTrue(Operator.match("<<"), "\"<<\"");
-        assertTrue(Operator.match("<<<"), "\"<<<\"");
+        assertTrue(!Operator.match("<<<"), "\"<<<\"");
         assertTrue(Operator.match("->"), "\"->\"");
         assertTrue(Operator.match(">>"), "\">>\"");
         assertTrue(Operator.match("=&"), "\"=&\"");

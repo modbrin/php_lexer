@@ -11,11 +11,12 @@ public class Literal extends Token {
     }
 
     public static boolean match(String value) {
-        return value.matches(STRING_LITERAL) || value.matches(NUMERIC_LITERAL) || value.matches(BOOL_LITERAL);
+        return value.matches(STRING_LITERAL) || value.matches(NUMERIC_LITERAL) || value.matches(BOOL_LITERAL)
+                || value.matches(HEREDOC);
     }
 
     private static String STRING_LITERAL = "(\\\"(\\\\.|[^\"\\\\])*\\\")|(\\'(\\\\.|[^'\\\\])*\\')";
-
+    private static String HEREDOC = "(?s)<<<.*?;";
 
     private static String LNUM = "[0-9]+";
     private static String DNUM = "(([0-9]*[\\.]LNUM)|(LNUM[\\.][0-9]*))"
